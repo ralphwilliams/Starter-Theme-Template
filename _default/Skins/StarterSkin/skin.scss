@@ -1,0 +1,211 @@
+﻿@import "bower_components/bootstrap-sass/assets/stylesheets/bootstrap.scss";
+@import 'PatternSheet.scss';
+
+@media (max-width: $screen-sm-min) {
+	#navigation.pull-right{
+		float:none!important;
+		overflow:hidden;
+		height:1px;
+	}
+}
+
+/*#region Layout */
+
+.content{
+	> div{
+		@include clearfix();
+		@include make-row();
+		#breadcrumbWrap{
+			@include make-md-column(12);
+		}
+		.content-pane{
+			@include make-md-column(8);
+		}
+		.aside-pane{
+			@include make-md-column(4);
+		}
+	}
+}
+.full-width-skin{
+	.content{
+		> div{
+			.content-pane{ 
+                @include make-md-column(12);
+
+			}
+		}
+	}
+}
+
+#Form footer{
+	@include clear-fix;
+	background-color:$gray-lighter;
+	height:$footerHeight;
+	padding:5px 0;
+	> .container{
+		> div {
+			@include make-row();
+			> div{
+				@include make-md-column(12);
+			}
+		}
+	}
+}
+
+/*#endregion*/
+
+/*#region Bootstrap Nav Overrides*/
+
+@mixin navHover($display:block){
+	nav.navbar{
+		.dropdown {
+			&:hover{
+				> ul{ display:$display;}
+			}
+		}
+	}
+}
+.dropdown .caret {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 2px;
+  vertical-align: middle;
+  border-top: 15px solid;
+  border-right: 10px solid transparent;
+  border-left: 10px solid transparent;
+}
+.navbar-nav{
+	> li {
+		> a {
+			line-height: $navbarHeight - $navbar-padding-vertical;
+		}
+	}
+	.caret{
+		  margin-top:10px;
+	}
+}
+
+@media (min-width: $screen-sm-min) {
+	@include navHover(block);
+	.navbar-nav{
+		.caret{ display:none;}
+	}
+}
+@media (max-width: $screen-sm-min) {
+	@include navHover(none);
+	.dropdown-menu{
+		position:relative;
+		width:100%;
+	}
+}
+
+/*#endregion*/
+
+/*#region Admin Overrides */
+	
+#Form.showControlBar {
+	#ControlBar_ControlPanel {
+		z-index: 1031 !important; // override z-indexing issue from bootstrap menu
+		.jspHorizontalBar{ top:0!important;}
+	}
+	.actionMenu{ z-index:1031!important;}
+}
+
+/*#endregion*/
+
+/*#region StickyFooter and FixedHeader */
+
+@mixin stickyFooter() {
+	html, body, form, #pageWrap {
+		height: 100%;
+	}
+
+	#Form #contentWrap {
+		min-height: 100%;
+		margin-bottom: -$footerHeight;
+
+		&:after {
+			content: "";
+			display: block;
+			height: $footerHeight;
+		}
+	}
+
+	#Form.showControlBar {
+		#contentWrap {
+			// margin-top: -($controlBarHeight);
+			// padding-top: $controlBarHeight;
+		}
+	}
+}
+
+@mixin control-bar-fix-footer($chb:$controlBarHeight) {
+	// Sticky Footer override
+	#Form.showControlBar{
+		.navbar-fixed-top{
+			top:$controlBarHeight;
+		}
+	}
+}
+
+@mixin control-bar-fix-header() {
+	$chb: $controlBarHeight;
+	// Admin Mode
+	#contentWrap {
+		//margin-top: -(@chb);
+		padding-top: $navbarHeight + 35px;
+	}
+	#Form.showControlBar {
+		.navbar-fixed-top{top:$controlBarHeight;}
+		#contentWrap {
+			margin-top: -($chb);
+			padding-top: $chb + $controlBarHeight + $navbarHeight - 20px;
+		}
+	}
+}
+
+@mixin control-bar-fix-footer_header() {
+	$chb:$controlBarHeight;
+	// Normal User Mode
+	.navbar-fixed-top{
+		top:0;
+	}
+	#contentWrap {
+		padding-top: $chb + $navbarHeight - 18px;
+	}
+	// Admin Mode
+	#Form.showControlBar{
+		.navbar-fixed-top{
+			top:$controlBarHeight;
+		}
+		#contentWrap {
+			margin-top: -($chb);
+			padding-top: $chb + $controlBarHeight + $navbarHeight - 18px;
+		}
+	}
+}
+
+@if $fixedMenu == true {
+    // Fixed Menu is true
+    @if $stickyFooter == false {
+		// Sticky Footer is false and Fixed Menu is true
+		@include control-bar-fix-header();
+	} @else {
+		// Sticky Footer and Fixed Menu are true
+		@include stickyFooter();
+		@include control-bar-fix-footer_header();
+    }
+} @else {
+	@if $stickyFooter == false {
+		// Sticky Footer and Fixed Menu are false
+		// Nothing should happen here.
+	} @else {
+		// Sticky Footer is true and Fixed Menu is false
+		@include stickyFooter();
+		@include control-bar-fix-footer();
+	}
+
+}
+
+/*#endregion*/

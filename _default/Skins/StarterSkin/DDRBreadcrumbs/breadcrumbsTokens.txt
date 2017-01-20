@@ -1,0 +1,27 @@
+<div id="ddrBreadcrumbs">
+	    [*>NODE-TOP]
+</div>
+[>NODE-TOP]
+	[?BREADCRUMB]
+		[?ENABLED]
+			<a href="[=URL]">[=TEXT]</a>
+		[?ELSE]
+			<a>[=TEXT]</a>
+		[/?]
+		[?NODE]
+		    [*>NODE]
+		[/?]
+	[/?]
+[/>]
+[>NODE]
+	[?BREADCRUMB]
+		[?SELECTED]
+			/ <span>[=TEXT]</span>
+		[?ELSE]
+			/ <a href="[=URL]">[=TEXT]</a>
+		[/?]
+		[?NODE]
+			[*>NODE]
+		[/?]
+	[/?]
+[/>]

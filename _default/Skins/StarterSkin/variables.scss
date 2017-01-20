@@ -1,0 +1,47 @@
+﻿// Colors
+$primaryColor:      #8dab7f;
+$primaryColor80:    #a4bc99;                    // tint($primaryColor,20);   -   ** not working with scss **
+$primaryColor40:    #d1ddcc;                    // tint($primaryColor,60);
+$secondaryColor:    #394032;
+$secondaryColor80:  #61665b;                    // tint($secondaryColor,20);
+$secondaryColor40:  #b0b3ad;                    // tint($secondaryColor,60);
+$tertiaryColor:     #d7dad6;
+$tertiaryColor80:   #dfe1de;                    // tint($tertiaryColor,20);
+$tertiaryColor40:   #eff0ef;                    // tint($tertiaryColor,60);
+$quaternaryColor:   #F87060;
+$quaternaryColor80: #f98d80;                    // tint($quaternaryColor,20);
+$quaternaryColor40: #fcc6bf;                    // tint($quaternaryColor,60);
+$quinaryColor:		#dcdcdc;
+$quinaryColor80:	tint($quinaryColor,20);
+$quinaryColor40:	tint($quinaryColor,60);
+$textColor:         #1E2019;
+$textColor80:       #4b4d47;                    // tint($textColor,20);
+$textColor40:       #a5a6a3;                    // tint($textColor,60);
+
+// Standard Colors
+$white:             #FFF;
+$black:             $textColor;
+$red:               #F87060;
+$blue:              #00f;
+$green:             #9f9;
+$yellow:            #ff9;
+
+// Color varience allowed for text/background color function
+$colorVariance:     60%;
+
+// Fonts
+$font-size:         13px;
+$sansSerifFont:     'Open Sans', Arial, 'DejaVu Sans', 'Liberation Sans', Freesans, sans-serif;
+$serifFont:         'Times New Roman', Times, serif;
+
+// Layouts
+$navbarHeight:	70px;
+$footerHeight:	80px;
+
+// Use fixd menu or sticky footer by choosing true/false
+$fixedMenu:		true; // requires .navbar-fixed-top class to be added to .navbar in HTML
+$stickyFooter:	true;
+
+// DNN Control Bar & Module Pane
+$controlBarHeight: 53px;
+$modulePane:250px;

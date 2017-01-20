@@ -1,0 +1,407 @@
+﻿@import 'lesshat-prefixed';
+@import 'variables';
+// 
+//  Table of Contents
+//
+//   1.0     Colors
+//     1.1     Default Colors
+//     1.2     Standard Colors
+//   2.0     Fonts
+//   3.0     Mixins
+//   4.0     Basic Layout
+//   5.0     Fonts
+//     5.1     Headers
+//     5.2     Basic Content
+//   6.0     Buttons
+//   7.0     Tables
+//   8.0     Form
+//   9.0     Side Navigation
+//  10.0     Style Guide Layout
+//
+
+
+
+// /*#region 1.0 Colors */
+
+	// /*#region 1.1 Default Colors */
+
+
+	// /*#endregion*/
+
+	// /*#region 1.2 Standard Colors */
+    @white:             #FFF;
+    @black:             @textColor;
+    @red:               @primaryColor;
+    @blue:              #00f;
+    @green:             #9f9;
+    @yellow:            #ff9;
+
+.alerts {
+	padding:15px;
+	border-radius:5px;
+
+	.setColor(@bgColor){
+		background-color:@bgColor;
+		//.textvsBg(@bgColor);
+	}
+	&.notification	{.setColor(fade(@blue, 30%))}
+	&.warning		{.setColor(fade(@yellow, 30%))}
+	&.error			{.setColor(fade(@red, 30%))}
+	&.success		{.setColor(fade(@green, 30%))}
+}
+//textvsBg	
+
+	// /*#endregion*/
+
+// /*#endregion*/
+
+
+// /*#region 2.0 Fonts */
+
+    @font-size:         13px;
+    @sansSerifFont:     'Open Sans', Arial, 'DejaVu Sans', 'Liberation Sans', Freesans, sans-serif;
+    @serifFont:         "Times New Roman", Times, serif;
+
+// /*#endregion*/
+
+
+// /*#region 3.0 Mixins */
+
+    // clear-fix mixin can be called in the element you wish to apply a clear-fix without having to apply a class to the element in HTML
+    .clear-fix() {
+      zoom: 1;
+      &:before { content: ''; display: block; }
+      &:after { content: ''; display: table; clear: both; }
+    }
+
+    // creates a mixin to easily apply font family to elements
+    .sans-serif-font(){ font-family:@sansSerifFont;}
+    .serif-font(){ font-family:@serifFont;}
+
+    // simple mixins to simplify changing display to block or display-block
+    .block(){ display:block;}
+    .inline-block(){ display:inline-block;}
+
+    // list-menu mixin converts an unordered (or ordered) list into block elements for use on menus
+    .list-menu() {
+        margin:0;
+        padding:0;
+        //.clear-fix;
+        li {
+            .block();
+            list-style: none;
+            margin: 0;
+            padding:0;
+            a{.block();}
+        }
+    }
+
+    // textvsBg is a guard that tests background color passed into mixin to switch font color for readability (treat it as an if statement)
+    .textvsBg(@testColor){
+        .mixin (@a) when (lightness(@a) >= 60%) {
+            color: @textColor;
+        }
+        .mixin (@a) when (lightness(@a) < 60%) {
+            color: @white;
+        }
+        .mixin(@testColor);
+}
+
+// /*#endregion*/
+
+
+// /*#region 4.0 Basic Layout */
+
+//.clear-fix   {.clear-fix;}
+.right      {float:right;}
+.left       {float:left;}
+.img-left   {.left(); padding-right:10px;}
+.img-right  {.right(); padding-left:10px;}
+
+// /*#endregion*/
+
+
+// /*#region 5.0 Fonts */
+
+body,
+.Normal,
+.normal{
+    .sans-serif-font;
+    font-size:@font-size;
+    line-height:(@font-size * 1.4); // 140%
+}
+strong,
+.NormalBold{
+    font-weight:700;
+}
+.NormalRed{
+    color:@red;
+}
+.Normal{
+	ul{
+		&ol{
+			margin:0;
+			padding:0;
+			li{
+				margin:0;
+				padding:0;
+			}
+		}
+	}
+}
+
+
+
+	// /*#region 5.1 Headers */
+	// headers mixin creates basic styles used on all headers. Passes in the font size.
+	.headers(@headerFontSize){
+		.serif-font;
+		font-size:@headerFontSize;
+		font-weight:normal;
+		line-height:(@headerFontSize);
+		margin:0;
+		padding:0 0 (@headerFontSize / 2) 0;
+		text-transform:uppercase;
+	}
+	h1 {
+		&, &.head { .headers(60px);}
+	}
+	h2 {
+		&, &.head { .headers(44px);}
+	}
+	h3 {
+		&, &.head { .headers(36px);}
+	}
+	h4 {
+		&, &.head { .headers(30px);}
+	}
+	h5 {
+		&, &.head { .headers(24px);}
+	}
+	h6 {
+		&, &.head { .headers(18px);}
+	}
+
+	// /*#endregion*/
+
+	// DNN Overrides
+	.SubHead{}
+	.SubSubHead{}
+
+	// /*#region 5.2 Basic Content */
+
+	#ControlBar_ControlPanel,
+	.actionMenu {
+		*{
+			&,&:after,&:before{
+				-moz-box-sizing: content-box !important;
+				-webkit-box-sizing: content-box !important;
+				box-sizing: content-box !important;
+			}
+		}
+	}
+
+	p { 
+		.sans-serif-font;
+		padding-bottom:0;
+		margin-bottom:20px;
+	}
+	a { color:@primaryColor;
+		&:visited{
+			color:lighten(@primaryColor,5);
+		}
+		&:hover{
+			color:darken(@primaryColor,20);
+		}
+		&:active{
+			color:greyscale(@primaryColor);
+		}
+	}
+	.CommandButton{
+
+	}
+
+	// /*#endregion*/
+
+// /*#endregion*/
+
+
+// /*#region 6.0 Buttons */
+
+.button(@textColor, @bgColor:@tertiaryColor, @disabledColor:@tertiaryColor80, @bdRadius:5px){
+    @bdColor:darken(@bgColor, 10);
+    .inline-block;
+    background-color:@bgColor;
+    border:1px solid @bdColor;
+    border-radius:@bdRadius;
+    color:@textColor;
+    cursor:pointer;
+    font-size:14px;
+    padding:5px 10px;
+    margin:0 0 5px;
+    text-decoration:none;
+    &:hover{
+        background-color: darken(@bgColor, 10);
+        border-color: darken(@bdColor, 10);
+        color:@textColor;
+    }
+    &.disabled,
+    &:disabled{
+        cursor:default;
+        color:@textColor;
+        background-color: @disabledColor;
+        border-color:darken(@disabledColor,10);
+    }
+    &:visited{color:@textColor;}
+}
+button,
+.btn,
+.dnnPrimaryAction{
+    .button(#FFF, @primaryColor, @primaryColor80, 0px);
+}
+button.secondary,
+.btn-secondary,
+.dnnSecondaryAction{
+    .button(#FFF, @secondaryColor, @secondaryColor80, 0px);
+}
+button.tertiary,
+.btn-tertiary{
+    .button(@textColor, @tertiaryColor, @tertiaryColor80, 0px);
+}
+
+// /*#endregion*/
+
+
+// /*#region 7.0 Table */
+table {
+    width: 100%;
+    td,th{
+        line-height:30px;
+        padding:0 5px;
+        border:1px solid @tertiaryColor;
+    }
+    tbody {
+        tr {
+            &:nth-child(even) {
+                background-color: @tertiaryColor40;
+            }
+        }
+    }
+    thead{
+        tr{
+            background-color:@tertiaryColor;
+        }
+    }
+}
+
+// /*#endregion*/
+
+
+// /*#region 8.0 Form*/
+
+fieldset{
+    legend{
+        border-color:@tertiaryColor;
+    }
+}
+label{
+    .block;
+    font-weight:normal;
+}
+input,
+select,
+.NormalTextbox{
+    border:1px solid @tertiaryColor;
+    padding:3px 8px;
+}
+input.required{
+    border-left:3px solid @red;
+}
+
+// /*#endregion*/
+
+
+// /*#region 9.0 Side Navigation */
+.side-nav{
+    .list-menu;
+	margin-bottom:20px;
+    li{
+        background-color:@tertiaryColor;
+        border-bottom:1px solid @white;
+        a{
+            padding:10px 15px;
+            text-transform:uppercase;
+        }
+        &.selected{
+            background-color:@primaryColor;
+            a{
+                color:@white;
+                &:hover{
+                    text-decoration:none;
+                }
+            }
+        }
+		.dropdown-menu{
+			border-radius:0;
+			box-shadow:none;
+			float:none;
+			padding:0;
+			position:relative;
+			li{
+				background-color:#dcdcdc;
+			}
+		}
+    }
+}
+
+// /*#endregion*/
+
+
+// /*#region 10.0 Style Guide Layout - Used for style guide layout only */
+
+// Color Blocks
+.color-samples{
+    .list-menu;
+    width:100%;
+    margin-left:-65px;
+    li{
+        @sqaure:130px;
+        @padding:@sqaure / 2;
+        .left;
+        height:@sqaure - (2 * @padding);
+        margin:0 10px 10px;
+        text-align:center;
+        padding:(@padding - @font-size) 0 @padding;
+        width:@sqaure;
+        &.title{
+            height:20px;
+        }
+        .block-colors(@bgColor, @hexText){
+            background-color:@bgColor;
+            border:1px solid darken(@bgColor, 10);
+            .textvsBg(@bgColor); //
+            &:before{
+                content: @hexText;
+            }
+        }
+        &.default-text{.block-colors(@textColor, "@textColor");}
+        &.default-text-80{.block-colors(@textColor80, "@textColor80");}
+        &.default-text-60{.block-colors(@textColor40, "@textColor40");}
+        &.primary{.block-colors(@primaryColor, "@primaryColor");}
+        &.primary-80{.block-colors(@primaryColor80, "@primaryColor80");}
+        &.primary-60{.block-colors(@primaryColor40, "@primaryColor40");}
+        &.secondary{.block-colors(@secondaryColor, "@secondaryColor");}
+        &.secondary-80{.block-colors(@secondaryColor80, "@secondaryColor80");}
+        &.secondary-60{.block-colors(@secondaryColor40, "@secondaryColor40");}
+        &.tertiary{.block-colors(@tertiaryColor, "@tertiaryColor");}
+        &.tertiary-80{.block-colors(@tertiaryColor80, "@tertiaryColor80");}
+        &.tertiary-60{.block-colors(@tertiaryColor40, "@tertiaryColor40");}
+    }
+}
+
+// form
+.button-wrap{
+    margin-top:15px;
+}
+
+// /*#endregion*/
