@@ -71,10 +71,12 @@ strong,
 .NormalRed {
   color: #F87060; }
 
-.Normal ulol {
+.Normal ul,
+.Normal ol {
   margin: 0;
   padding: 0; }
-  .Normal ulol li {
+  .Normal ul li,
+  .Normal ol li {
     margin: 0;
     padding: 0; }
 
